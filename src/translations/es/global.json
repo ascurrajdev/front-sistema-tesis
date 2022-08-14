@@ -1,0 +1,35 @@
+{
+    "english":"Inglés",
+    "spanish":"Español",
+    "language":"Idioma",
+    "labels":{
+        "name":"Nombre",
+        "email": "Correo Electronico",
+        "password":"Contraseña",
+        "password-confirmation":"Confirmar Contraseña"
+    },
+    "profile":"Perfil",
+    "validations":{
+        "required":"Por favor ingresa tu %{field}"
+    },
+    "remember":{
+        "me": "Recordarme"
+    },
+    "register":{
+        "now": "Registrate Ahora",
+        "default":"Registrate"
+    },
+    "forgot":{
+        "password":"Olvidaste tu Contraseña"
+    },
+    "or":"O",
+    "reservations":"Reservaciones",
+    "submit":"Enviar",
+    "login":"Inicia Sesión",
+    "home":"Inicio",
+    "frequently questions":"Preguntas Frecuentes",
+    "suggestions":"Sugerencias",
+    "about":"Sobre Nosotros",
+    "frequently-questions":"Preguntas Frecuentes",
+    "go to home":"Ir a Inicio"
+}

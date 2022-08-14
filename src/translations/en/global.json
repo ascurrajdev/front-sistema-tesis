@@ -1,0 +1,35 @@
+{
+    "english":"English",
+    "spanish":"Spanish",
+    "language":"Language",
+    "labels":{
+        "name":"Name",
+        "email": "Email",
+        "password": "Password",
+        "password-confirmation":"Password Confirmation"
+    },
+    "profile":"Profile",
+    "validations":{
+        "required":"Please input your %{field}"
+    },
+    "remember":{
+        "me": "Remember me"
+    },
+    "register":{
+        "now": "Register Now",
+        "default":"Register"
+    },
+    "forgot":{
+        "password":"Forgot Password"
+    },
+    "reservations":"Reservations",
+    "or":"OR",
+    "submit":"Submit",
+    "login":"Log in",
+    "home":"Home",
+    "frequently questions":"Frequently Questions",
+    "suggestions":"Suggestions",
+    "about":"About Us",
+    "frecuently-questions":"Frequently Questions",
+    "go to home":"Go to Home" 
+}
