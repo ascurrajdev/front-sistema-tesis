@@ -1,5 +1,5 @@
 <script setup>
-import {reactive} from 'vue'
+import {reactive, ref, watch} from 'vue'
 import { useI18n } from 'vue-i18n';
 import axios from 'axios'
 import {LockOutlined, MailOutlined, UserOutlined} from '@ant-design/icons-vue'
@@ -9,8 +9,10 @@ const formState = reactive({
     email:"",
     name:"",
     password:"",
+    phone_number:"",
     password_confirmation:"",
 })
+const phoneNumber = ref(null)
 const onHandleRegisterFinish = (values) => {
     axios.post(`${import.meta.env.VITE_API_URL_CLIENT}/register`,values).then((response) => {
         console.log(response.data)
@@ -21,6 +23,9 @@ const onHandleRegisterFinish = (values) => {
         })
     });
 }
+watch(phoneNumber,(value) => {
+    formState.phone_number = value.replaceAll(" ","").replace("+","");
+})
 </script>
 <template>
     <a-row type="flex" class="items-center justify-center">
@@ -53,6 +58,13 @@ const onHandleRegisterFinish = (values) => {
                             <MailOutlined />
                         </template>
                     </a-input>
+                </a-form-item>
+                <a-form-item
+                    :label="t('labels.phone_number')"
+                    name="phone_number"
+                    :rules="[{required:true, message:t('validations.required',{field:t('labels.phone_number')})}]"
+                >
+                    <vue-tel-input v-model="phoneNumber"></vue-tel-input>
                 </a-form-item>
                 <a-form-item
                     :label="t('labels.password')"

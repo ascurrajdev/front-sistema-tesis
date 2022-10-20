@@ -6,6 +6,7 @@
         "name":"Nombre",
         "email": "Correo Electronico",
         "password":"Contraseña",
+        "phone_number": "Numero de Telefono",
         "password-confirmation":"Confirmar Contraseña"
     },
     "profile":"Perfil",

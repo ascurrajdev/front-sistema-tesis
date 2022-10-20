@@ -5,6 +5,7 @@
     "labels":{
         "name":"Name",
         "email": "Email",
+        "phone_number": "Phone Number",
         "password": "Password",
         "password-confirmation":"Password Confirmation"
     },
