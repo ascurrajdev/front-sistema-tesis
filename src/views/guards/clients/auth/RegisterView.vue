@@ -1,9 +1,10 @@
 <script setup>
 import {reactive, ref, watch} from 'vue'
 import { useI18n } from 'vue-i18n';
-import axios from 'axios'
 import {LockOutlined, MailOutlined, UserOutlined} from '@ant-design/icons-vue'
 import {notification} from 'ant-design-vue'
+import {useRouter} from 'vue-router'
+import {useAuthClientStore} from '@/stores/clients/authClient'
 const {t} = useI18n();
 const formState = reactive({
     email:"",
@@ -12,19 +13,22 @@ const formState = reactive({
     phone_number:"",
     password_confirmation:"",
 })
+const router = useRouter()
 const phoneNumber = ref(null)
-const onHandleRegisterFinish = (values) => {
-    axios.post(`${import.meta.env.VITE_API_URL_CLIENT}/register`,values).then((response) => {
-        console.log(response.data)
-    }).catch((error) => {
+const authClient = useAuthClientStore()
+const onHandleRegisterFinish = async (values) => {
+    try{
+        await authClient.registerClient(values)
+        router.replace("/guards/clients/home")
+    }catch(err){
         notification['error']({
             message:'Error',
             description:error.response.data.message
         })
-    });
+    }
 }
 watch(phoneNumber,(value) => {
-    formState.phone_number = value.replaceAll(" ","").replace("+","");
+    formState.phone_number = value;
 })
 </script>
 <template>

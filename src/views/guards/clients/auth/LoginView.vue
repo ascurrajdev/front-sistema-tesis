@@ -18,7 +18,7 @@
         try{
             await authClientStore.loginClient(form)
             isLoading.value = false
-            router.push("/guards/clients/home")
+            router.replace("/guards/clients/home")
         }catch(err){
             notification['error']({
                 message:'Error',
