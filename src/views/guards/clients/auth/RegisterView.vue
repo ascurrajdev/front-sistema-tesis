@@ -32,7 +32,7 @@ watch(phoneNumber,(value) => {
 })
 </script>
 <template>
-    <a-row type="flex" class="items-center justify-center">
+<a-row type="flex" class="items-center justify-center">
     <a-col :md="12" :sm="24" :xs="24">
         <a-card>
             <a-form
