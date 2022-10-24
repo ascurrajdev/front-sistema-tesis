@@ -7,7 +7,8 @@
         "email": "Email",
         "phone_number": "Phone Number",
         "password": "Password",
-        "password-confirmation":"Password Confirmation"
+        "password-confirmation":"Password Confirmation",
+        "quantity-people":"Quantity of People"
     },
     "profile":"Profile",
     "validations":{
