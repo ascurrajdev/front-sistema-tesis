@@ -5,6 +5,8 @@ export const useReservationStore = defineStore('reservations',{
         return {
             form:{
                 quantity:0,
+                product_price:0,
+                quantity_days:0,
             }
         }
     },
@@ -15,5 +17,8 @@ export const useReservationStore = defineStore('reservations',{
                 ...form
             }
         }
+    },
+    getters:{
+        getAmountTotalProduct:(state) => new Intl.NumberFormat('es').format(state.form.quantity * state.form.product_price * state.form.quantity_days),
     }
 })

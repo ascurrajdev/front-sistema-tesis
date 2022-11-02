@@ -15,6 +15,7 @@ axios.get(`${import.meta.env.VITE_API_URL_CLIENT}/reservations/products`,{
 }).then(({data}) => {
     productsReservation.value = data.data
     formState.product_id = data.data[0].id
+    handleChangeProduct(data.data[0].id)
 })
 const reservationStore = useReservationStore()
 const formState = reactive({
@@ -24,6 +25,11 @@ const formState = reactive({
 const activeConfirm = ref(false)
 const getAmountWithCurrency = (product) => {
     return product.currency.format + " " + new Intl.NumberFormat('es').format(product.amount)
+}
+const handleChangeProduct = (product_id) => {
+    let product = productsReservation.value.find((product) => product.id == product_id)
+    formState.product_price = product.amount
+    formState.product = product;
 }
 watch(formState, (form) => {
     reservationStore.setFormData({...form})
@@ -49,6 +55,7 @@ const onConfirm = () => {
                 name="product_id"
             >
                 <a-select
+                    @change="handleChangeProduct"
                     v-model:value="formState.product_id"
                 >
                     <a-select-option :value="product.id" v-for="product in productsReservation">{{product.name}}  {{getAmountWithCurrency(product)}}</a-select-option>

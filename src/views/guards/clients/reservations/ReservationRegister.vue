@@ -34,7 +34,7 @@ const onConfirm = () => {
             </div>
         </div>
         <div class="steps-action text-center mt-20">
-            <h1 class="text-4xl">Gs 0</h1>
+            <h1 class="text-4xl">Gs {{reservationStore.getAmountTotalProduct}}</h1>
         </div>
     </div>
 </template>
