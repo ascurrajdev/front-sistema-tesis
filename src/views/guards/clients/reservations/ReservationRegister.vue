@@ -1,15 +1,23 @@
 <script setup>
-import {ref} from 'vue'
-import {useAuthClientStore} from '@/stores/clients/authClient'
-import {useReservationStore} from '@/stores/clients/reservation'
-import ReservationAvailablesDates from './ReservationAvailablesDates.vue'
-import ReservationQuantityPeople from './ReservationQuantiyPeople.vue'
-const authClient = useAuthClientStore()
-const current = ref(0)
-const reservationStore = useReservationStore()
-const onConfirm = () => {
-    current.value++
-}
+    import {ref} from 'vue'
+    import axios from 'axios'
+    import {useAuthClientStore} from '@/stores/clients/authClient'
+    import {useReservationStore} from '@/stores/clients/reservation'
+    import ReservationAvailablesDates from './ReservationAvailablesDates.vue'
+    import ReservationQuantityPeople from './ReservationQuantiyPeople.vue'
+    const authClient = useAuthClientStore()
+    const current = ref(0)
+    const reservationStore = useReservationStore()
+    const onConfirm = () => {
+        current.value++
+    }
+    axios.get(`${import.meta.env.VITE_API_URL_CLIENT}/reservations/config`,{
+        headers:{
+            'Authorization': `Bearer ${authClient.auth.credentials.plainTextToken}`
+        }
+    }).then(({data}) => {
+        reservationStore.setFormData({config:data.data})
+    })
 </script>
 <template>
     <div>

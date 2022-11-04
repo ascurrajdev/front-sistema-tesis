@@ -7,6 +7,8 @@ export const useReservationStore = defineStore('reservations',{
                 quantity:0,
                 product_price:0,
                 quantity_days:0,
+                config:{},
+                currency:{},
             }
         }
     },
