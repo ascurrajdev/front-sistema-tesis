@@ -5,6 +5,7 @@
     import {useReservationStore} from '@/stores/clients/reservation'
     import ReservationAvailablesDates from './ReservationAvailablesDates.vue'
     import ReservationQuantityPeople from './ReservationQuantiyPeople.vue'
+    import ReservationGenerateInitialPayment from './ReservationGenerateInitialPayment.vue'
     const authClient = useAuthClientStore()
     const current = ref(0)
     const reservationStore = useReservationStore()
@@ -35,7 +36,7 @@
                 <ReservationAvailablesDates @confirm="onConfirm"/>
             </div>
             <div v-else-if="current === 2">
-                <h1>Que tal</h1>
+                <ReservationGenerateInitialPayment @confirm="onConfirm"/>
             </div>
             <div v-else-if="current === 3">
                 <h1>Estas</h1>
