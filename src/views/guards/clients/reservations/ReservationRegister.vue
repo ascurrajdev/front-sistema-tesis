@@ -25,7 +25,7 @@
         <a-steps :current="current">
             <a-step title="Selecciona la cantidad de personas"></a-step>
             <a-step title="Selecciona las fechas"></a-step>
-            <a-step title="Anota tus datos para la reserva"></a-step>
+            <a-step title="Realiza el pago"></a-step>
             <a-step title="Completado"></a-step>
         </a-steps>
         <div class="steps-content">

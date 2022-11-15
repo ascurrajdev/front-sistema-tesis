@@ -9,6 +9,7 @@ export const useReservationStore = defineStore('reservations',{
                 quantity_days:0,
                 config:{},
                 currency:{},
+                data:{},
             }
         }
     },
