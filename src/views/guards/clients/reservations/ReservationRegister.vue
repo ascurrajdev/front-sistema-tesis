@@ -27,6 +27,8 @@
             <a-step title="Selecciona la cantidad de personas"></a-step>
             <a-step title="Selecciona las fechas"></a-step>
             <a-step title="Datos de Facturacion"></a-step>
+            <a-step title="Realiza el pago"></a-step>
+            <a-step title="Completado"></a-step>
         </a-steps>
         <div class="steps-content">
             <div v-if="current === 0">

@@ -10,7 +10,7 @@
         </a-col>
     </a-row>
 </template>
-<script setup>
+<script>
     import {ref, watch} from 'vue'
     import axios from 'axios'
     import {useAuthClientStore} from '@/stores/clients/authClient'
