@@ -9,6 +9,5 @@
     window.Pusher = require('pusher-js')
     let laravelEcho = new Echo({
         broadcaster:'pusher',
-        ''
     })
 </script>
