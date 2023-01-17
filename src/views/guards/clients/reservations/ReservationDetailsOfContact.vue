@@ -29,7 +29,7 @@
                     </a-col>
                     <a-col :span="8">
                         <a-form-item
-                            label="Valor del Documento"
+                            label="Numero del Documento"
                             name="business_name"
                         >
                             <a-input type="text" v-model="formState.document_id"/>
@@ -85,6 +85,11 @@
 </template>
 <script setup>
     import {reactive} from 'vue'
+    import apiClients from '@/services/apiClients'
+    import {useReservationStore} from '@/stores/clients/reservation'
+    import {useAuthClientStore} from '@/stores/clients/authClient'
+    const reservationStore = useReservationStore()
+    const authClient = useAuthClientStore()
     const formState = reactive({
         country:"",
         state:"",
@@ -95,7 +100,26 @@
         document_id:"",
         businnes_name:"",
     })
-    const onConfirm = () => {
-        window.location.replace("https://www.tpago.com.py/links?alias=PKNIX29541")
+    const onConfirm = async () => {
+        let {data: dataReservation} = await apiClients.post(`reservations`, {
+            date_from:reservationStore.form.dates[0],
+            date_to:reservationStore.form.dates[1],
+            details:[{
+                product_id:reservationStore.form.product_id,
+                quantity:reservationStore.form.quantity
+            }]
+        },{
+            headers:{
+                'Content-Type':'application/json',
+                'Authorization': `Bearer ${authClient.auth.credentials.plainTextToken}`
+            },
+        })
+        let {data: dataPayment} = await apiClients.get(`invoice_due/payment/${dataReservation.data.invoiceDue.id}`,{
+            headers:{
+                'Content-Type':'application/json',
+                'Authorization': `Bearer ${authClient.auth.credentials.plainTextToken}`
+            },
+        })
+        window.open(dataPayment.data,'_blank')
     }
 </script>
