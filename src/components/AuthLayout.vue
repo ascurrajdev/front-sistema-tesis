@@ -56,8 +56,8 @@
                 </a-sub-menu>
             </a-menu>
         </a-layout-header>
-        <a-layout-content class="p-5 grow">
-            <router-view></router-view>
+        <a-layout-content>
+            <router-view class="h-full overflow-auto bg-white p-3"></router-view>
         </a-layout-content>
         <a-layout-footer class="text-center">
             Sistema Tesis ©2022
