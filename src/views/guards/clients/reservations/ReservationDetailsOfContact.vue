@@ -77,14 +77,14 @@
                     </a-col>
                 </a-row>
                 <a-form-item>
-                    <a-button type="primary" @click="onConfirm">Realizar el Pago</a-button>
+                    <a-button type="primary" :loading="loadingGeneratePayment" @click="onConfirm">{{loadingGeneratePayment ? "Generando Pago" : "Realizar el Pago" }}</a-button>
                 </a-form-item>
             </a-form>
         </a-col>
     </a-row>
 </template>
 <script setup>
-    import {reactive} from 'vue'
+    import {reactive, ref} from 'vue'
     import apiClients from '@/services/apiClients'
     import {useReservationStore} from '@/stores/clients/reservation'
     import {useAuthClientStore} from '@/stores/clients/authClient'
@@ -100,8 +100,10 @@
         document_id:"",
         businnes_name:"",
     })
-    const onConfirm = async () => {
-        let {data: dataReservation} = await apiClients.post(`reservations`, {
+    const loadingGeneratePayment = ref(false)
+    const onConfirm = () => {
+        loadingGeneratePayment.value = true
+        apiClients.post(`reservations`, {
             date_from:reservationStore.form.dates[0],
             date_to:reservationStore.form.dates[1],
             details:[{
@@ -113,13 +115,19 @@
                 'Content-Type':'application/json',
                 'Authorization': `Bearer ${authClient.auth.credentials.plainTextToken}`
             },
+        }).then(({data: dataReservation}) => {
+            apiClients.get(`invoice_due/payment/${dataReservation.data.invoiceDue.id}`,{
+                headers:{
+                    'Content-Type':'application/json',
+                    'Authorization': `Bearer ${authClient.auth.credentials.plainTextToken}`
+                },
+            }).then(({data: dataPayment}) => {
+                window.open(dataPayment.data,'_blank')
+            }).finally(() => {
+                loadingGeneratePayment.value = false
+            })
+        }).catch(() => {
+            loadingGeneratePayment.value = false
         })
-        let {data: dataPayment} = await apiClients.get(`invoice_due/payment/${dataReservation.data.invoiceDue.id}`,{
-            headers:{
-                'Content-Type':'application/json',
-                'Authorization': `Bearer ${authClient.auth.credentials.plainTextToken}`
-            },
-        })
-        window.open(dataPayment.data,'_blank')
     }
 </script>
