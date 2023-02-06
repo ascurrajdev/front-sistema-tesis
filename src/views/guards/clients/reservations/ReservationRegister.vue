@@ -5,7 +5,6 @@
     import {useReservationStore} from '@/stores/clients/reservation'
     import ReservationAvailablesDates from './ReservationAvailablesDates.vue'
     import ReservationQuantityPeople from './ReservationQuantiyPeople.vue'
-    import ReservationGenerateInitialPayment from './ReservationGenerateInitialPayment.vue'
     import ReservationDetailsOfContact from './ReservationDetailsOfContact.vue'
     const authClient = useAuthClientStore()
     const current = ref(0)
@@ -27,7 +26,6 @@
             <a-step title="Selecciona la cantidad de personas"></a-step>
             <a-step title="Selecciona las fechas"></a-step>
             <a-step title="Datos de Facturacion"></a-step>
-            <a-step title="Realiza el pago"></a-step>
             <a-step title="Completado"></a-step>
         </a-steps>
         <div class="steps-content">

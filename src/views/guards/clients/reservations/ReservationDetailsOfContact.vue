@@ -87,9 +87,12 @@
     import {reactive, ref} from 'vue'
     import apiClients from '@/services/apiClients'
     import {useReservationStore} from '@/stores/clients/reservation'
+    import { useRouter } from 'vue-router'
     import {useAuthClientStore} from '@/stores/clients/authClient'
     const reservationStore = useReservationStore()
     const authClient = useAuthClientStore()
+    const router = useRouter();
+    router.push({query:{step:3}})
     const formState = reactive({
         country:"",
         state:"",

@@ -3,9 +3,12 @@ import {reactive, watch, ref, defineEmits} from 'vue'
 import {useAuthClientStore} from '@/stores/clients/authClient'
 import {useI18n} from 'vue-i18n'
 import axios from 'axios'
+import { useRouter } from 'vue-router'
 import {useReservationStore} from '@/stores/clients/reservation'
 const emits = defineEmits(['confirm'])
 const {t} = useI18n()
+const router = useRouter();
+router.push({query:{step:1}})
 const authClient = useAuthClientStore()
 const productsReservation = ref({})
 axios.get(`${import.meta.env.VITE_API_URL_CLIENT}/reservations/products`,{
@@ -30,6 +33,9 @@ const handleChangeProduct = (product_id) => {
     let product = productsReservation.value.find((product) => product.id == product_id)
     formState.product_price = product.amount
     formState.product = product;
+}
+const handleFocusQuantityPeople = (e) => {
+    e.target.select()
 }
 watch(formState, (form) => {
     reservationStore.setFormData({...form})
@@ -66,7 +72,7 @@ const onConfirm = () => {
                 name="quantity"
                 :rules="[{required:true,message:t('validations.required',{field:t('labels.quantity-people')})}]"
             >
-                <a-input type="number" v-model:value="formState.quantity"/>
+                <a-input type="number" @focus="handleFocusQuantityPeople" v-model:value="formState.quantity"/>
             </a-form-item>
             <a-form-item>
                 <a-button type="primary" @click="onConfirm" :disabled="!activeConfirm">Confirmar</a-button>

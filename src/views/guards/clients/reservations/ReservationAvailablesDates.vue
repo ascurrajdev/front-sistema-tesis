@@ -4,9 +4,12 @@
     import {useAuthClientStore} from '@/stores/clients/authClient'
     import {useReservationStore} from '@/stores/clients/reservation'
     import { useQuery } from 'vue-query'
+    import { useRouter } from 'vue-router'
     import { useI18n } from 'vue-i18n';
     import axios from 'axios'
     const {t} = useI18n()
+    const router = useRouter()
+    router.push({query:{step:2}})
     const emits = defineEmits(['confirm'])
     const authClient = useAuthClientStore()
     const keyFetch = "reservations:unavailables"
