@@ -48,7 +48,7 @@
                 <ReservationSuccess/>
             </div>
         </div>
-        <div class="steps-action text-center mt-20">
+        <div class="steps-action text-center mt-20" v-if="currentStep != 3">
             <h1 class="text-4xl text-green-700">Pago inicial: Gs {{reservationStore.getAmountInitialPayment}}</h1>
             <h1 class="text-xl">Total a pagar: Gs {{reservationStore.getAmountTotalProduct}}</h1>
         </div>
