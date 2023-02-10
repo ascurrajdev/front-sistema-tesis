@@ -15,7 +15,12 @@
             v-model:visible="visibleFilters"
             title="Filtros"
         >
-            
+            <a-form :model="formFilters">
+                <a-form-item label="Activo">
+                    <a-switch v-model:checked="formFilters.active"/>
+                </a-form-item>
+                <a-button type="primary" :loading="isRefetching" @click="onApplyChanges">Aplicar</a-button>
+            </a-form>
         </a-drawer>
         <div v-if="!data || data?.data.length <= 0">
             <a-row>
@@ -81,19 +86,24 @@
     </div>
 </template>
 <script setup>
-    import {ref, watch} from 'vue'
-    import { useQuery } from 'vue-query'
+    import {ref, reactive} from 'vue'
+    import { useQuery } from "@tanstack/vue-query";
     import {useRouter} from 'vue-router'
     import apiClients from "@/services/apiClients";
     import {CheckCircleOutlined, ExclamationCircleOutlined, PlusOutlined, AlignRightOutlined} from '@ant-design/icons-vue'
     import {useAuthClientStore} from '@/stores/clients/authClient'
+import { watch } from 'fs';
     const authClient = useAuthClientStore()
+    const formFilters = reactive({
+        active: true
+    })
     const visibleFilters = ref(false);
     const getAllReservationsClient = async () => {
         const {data} = await apiClients.get(`reservations`,{
             headers:{
                 'Authorization': `Bearer ${authClient.auth.credentials.plainTextToken}`
-            }
+            },
+            params:formFilters
         })
         return data
     }
@@ -109,6 +119,10 @@
     }
     const router = useRouter()
     const goToRegisterReservation = () => router.push('reservations/add')
-    const {isLoading, isSuccess, isError, data} = useQuery("reservationsLists",getAllReservationsClient)
+    const {isLoading, isSuccess, isError, data,refetch, isRefetching} = useQuery({queryKey:["reservationsLists"],queryFn:getAllReservationsClient})
+    const onApplyChanges = (e) => {
+        refetch()
+        visibleFilters.value = false
+    }
     const rangeDate = ref(null)
 </script>
