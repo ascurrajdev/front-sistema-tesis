@@ -50,7 +50,7 @@
                 <template #renderItem="{item}">
                     <a-list-item>
                         <template #actions>
-                            <a-button type="primary">Pagar</a-button>
+                            <a-button type="primary" @click="onShowBilling(item.id)">Estado de Cuenta</a-button>
                         </template>
                         <a-list-item-meta>
                             <template #title>
@@ -105,6 +105,9 @@
             params:formFilters
         })
         return data
+    }
+    const onShowBilling = (id) => {
+        router.push(`reservations/billing/${id}`)
     }
     const formatCurrency = (price) => {
         let currencyFormat = new Intl.NumberFormat('de-DE',{
