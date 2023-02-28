@@ -22,7 +22,10 @@
                 <a-button type="primary" :loading="isRefetching" @click="onApplyChanges">Aplicar</a-button>
             </a-form>
         </a-drawer>
-        <div v-if="!data || data?.data.length <= 0">
+        <div v-if="isLoading">
+            <a-spin size="large"/>
+        </div>
+        <div v-else-if="!data || data?.data.length <= 0">
             <a-row>
                 <a-col :span="24">
                     <a-empty>
