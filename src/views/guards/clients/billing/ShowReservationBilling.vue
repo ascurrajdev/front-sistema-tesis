@@ -6,7 +6,10 @@
         />
         <a-tabs v-model:activeKey="activeTab">
             <a-tab-pane key="general" tab="Descripcion General">
-                General
+                <h1 class="text-2xl">
+                    Total a Pagar: 
+                    <span v-if="!!billingData">Gs. {{ currencyFormat(billingData.amount_pending_paid) }}</span>
+                </h1>
             </a-tab-pane>
             <a-tab-pane key="details" tab="Descripcion detallada de pagos">
                 <a-table :data-source="billingData.data" :columns="columnsTableDetailsPayments" />
@@ -27,6 +30,7 @@
     const onBackHeader = () => {
         router.back()
     }
+    const currencyFormat = (price) => new Intl.NumberFormat('de-DE').format(price)
     const getAllBillingOfReservation = async() => {
         const {data} = await apiClients.get(`reservations/${route.params.id}/billing`,{
             headers:{

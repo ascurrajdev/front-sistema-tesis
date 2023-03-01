@@ -25,9 +25,16 @@
     const currentStep = computed(() => {
         return parseInt(route.query?.step) - 1 || 0
     })
+    const onBackHeader = () => {
+        router.replace("/guards/clients/reservations")
+    }
 </script>
 <template>
     <div>
+        <a-page-header
+            title="Nueva Reservacion"
+            @back="onBackHeader"
+        />
         <a-steps :current="currentStep">
             <a-step title="Selecciona la cantidad de personas"></a-step>
             <a-step title="Selecciona las fechas"></a-step>
