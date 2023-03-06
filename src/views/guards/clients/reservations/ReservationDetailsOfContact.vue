@@ -119,7 +119,7 @@
                 'Authorization': `Bearer ${authClient.auth.credentials.plainTextToken}`
             },
         }).then(({data: dataReservation}) => {
-            apiClients.get(`invoice_due/payment/${dataReservation.data.invoiceDue.id}`,{
+            apiClients.get(`invoice_due/payment/${dataReservation.data.invoiceDue[0].id}`,{
                 headers:{
                     'Content-Type':'application/json',
                     'Authorization': `Bearer ${authClient.auth.credentials.plainTextToken}`
