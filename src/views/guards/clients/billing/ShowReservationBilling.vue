@@ -6,19 +6,39 @@
         />
         <a-tabs v-model:activeKey="activeTab">
             <a-tab-pane key="general" tab="Descripcion General">
-                <h1 class="text-2xl">
-                    Total a Pagar: 
-                    <span v-if="!!billingData">Gs. {{ currencyFormat(billingData.amount_pending_paid) }}</span>
-                </h1>
+                <div class="flex gap-5">
+                    <h1 class="text-2xl">
+                        Total a Pagar: 
+                        <span v-if="!!billingData">Gs. {{ currencyFormat(totalAmount) }}</span>
+                    </h1>
+                    <a-button @click="onTogglePayAmount" type="primary">Realizar Pago</a-button>
+                </div>
             </a-tab-pane>
             <a-tab-pane key="details" tab="Descripcion detallada de pagos">
                 <a-table :data-source="billingData.data" :columns="columnsTableDetailsPayments" />
             </a-tab-pane>
         </a-tabs>
+        <a-modal okText="Pagar" :okButtonProps="okPaymentModalProps" cancelText="Cancelar" :confirm-loading="loadingModalPayment" v-model:visible="modalShowPayAmount" @ok="onOkModalPayAmount">
+            <a-form layout="vertical">
+                <a-form-item
+                    label="Monto"
+                    name="amount"
+                >
+                    <a-input-number
+                        style="width:100%;"
+                        v-model:value="paymentForm.amount"
+                        :formatter="value => `Gs ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                        :parser="value => value.replace(/\Gs\s?|(,*)/g, '')"
+                    />
+                    <br>
+                    <p class="text-green-700 font-semibold">Gs. {{ currencyFormat(billingData.amount_pending_paid - paymentForm.amount) }}</p>
+                </a-form-item>
+            </a-form>
+        </a-modal>
     </div>
 </template>
 <script setup>
-    import { ref,watch } from 'vue';
+    import { ref,watch,reactive,computed } from 'vue';
     import { useRouter, useRoute } from 'vue-router';
     import { useQuery } from '@tanstack/vue-query';
     import apiClients from "@/services/apiClients";
@@ -27,8 +47,23 @@
     const router = useRouter()
     const route = useRoute()
     const activeTab = ref('general')
+    const paymentForm = reactive({
+        amount:0
+    })
+    const okPaymentModalProps = reactive({
+        disabled: true
+    })
     const onBackHeader = () => {
         router.back()
+    }
+    const modalShowPayAmount = ref(false)
+    const loadingModalPayment = ref(false)
+    const totalAmount = ref(0)
+    const onTogglePayAmount = () => {
+        modalShowPayAmount.value = !modalShowPayAmount.value
+    }
+    const onOkModalPayAmount = () => {
+        loadingModalPayment.value = true
     }
     const currencyFormat = (price) => new Intl.NumberFormat('de-DE').format(price)
     const getAllBillingOfReservation = async() => {
@@ -40,9 +75,23 @@
         return data;
     }
     const {isLoading, data:billingData, refetch} = useQuery({queryKey:["reservationBilling",route.params.id],queryFn:getAllBillingOfReservation})
-    watch(billingData,(value) =>{
-        console.log(value)
+    watch(billingData,(value) => {
+        if(!!value?.amount_pending_paid){
+            totalAmount.value = value?.amount_pending_paid
+        }
     })
+    watch(
+        () => paymentForm.amount,
+        (value, prev) =>{
+            okPaymentModalProps.disabled = value == 0
+            if((totalAmount.value - value) < 0){
+                paymentForm.amount = prev
+            }
+        },
+        {
+            deep:true
+        }
+    )
     const columnsTableDetailsPayments = [
         {
             title:'Id',
