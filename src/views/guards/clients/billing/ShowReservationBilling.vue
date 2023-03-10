@@ -7,11 +7,21 @@
         <a-tabs v-model:activeKey="activeTab">
             <a-tab-pane key="general" tab="Descripcion General">
                 <div class="flex gap-5">
-                    <h1 class="text-2xl">
+                    <h1 class="text-2xl" v-if="totalAmount > 0">
                         Total a Pagar: 
                         <span v-if="!!billingData">Gs. {{ currencyFormat(totalAmount) }}</span>
                     </h1>
-                    <a-button @click="onTogglePayAmount" type="primary">Realizar Pago</a-button>
+                    <a-result
+                        style="width:100%;"
+                        v-else
+                        status="success"
+                        title="La reservacion esta pagada completamente"
+                    >
+                    <template #extra>
+                        <a-button @click="goToPayments" type="primary">Ver Pagos</a-button>
+                    </template>
+                    </a-result>
+                    <a-button v-if="totalAmount > 0" @click="onTogglePayAmount" type="primary">Realizar Pago</a-button>
                 </div>
             </a-tab-pane>
             <a-tab-pane key="details" tab="Descripcion detallada de pagos">
@@ -50,9 +60,25 @@
     const paymentForm = reactive({
         amount:0
     })
+    const goToPayments = () => {
+        activeTab.value = "details"
+    }
     const okPaymentModalProps = reactive({
         disabled: true
     })
+    const makePaymentReservation = () => {
+        apiClients.post(`reservations/${route.params.id}/make-payment`,paymentForm,{
+            headers:{
+                'Authorization':`Bearer ${authClient.auth.credentials.plainTextToken}`
+            }
+        }).then((response) => {
+            window.location = response.data.data
+        }).catch((err) => {
+            console.log(err)
+        }).finally(() => {
+            loadingModalPayment.value = false
+        })
+    }
     const onBackHeader = () => {
         router.back()
     }
@@ -64,6 +90,7 @@
     }
     const onOkModalPayAmount = () => {
         loadingModalPayment.value = true
+        makePaymentReservation()
     }
     const currencyFormat = (price) => new Intl.NumberFormat('de-DE').format(price)
     const getAllBillingOfReservation = async() => {
