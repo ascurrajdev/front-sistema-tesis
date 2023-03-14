@@ -3,16 +3,17 @@ import {publicsRoutes} from './public'
 import {authClientsRoutes} from './authClients'
 import {authUsersRoutes} from './authUsers'
 import {homeRoutesClients} from './homeClients'
+import {homeRoutesUsers} from './homeUsers'
 import MenuLayout from '@/components/MenuLayout.vue'
 import AuthLayout from '@/components/AuthLayout.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import {useAuthClientStore} from '@/stores/clients/authClient'
+import { useAuthUserStore } from '../stores/users/authUser'
 export const router = createRouter({
     history: createWebHistory(),
     routes:[
         {
             path:"/guards",
-            // component: AuthLayout,
             children: [
                 {
                     path:"clients",
@@ -53,7 +54,11 @@ export const router = createRouter({
                             path:"",
                             children: homeRoutesUsers,
                             beforeEnter:(to, from, next) => {
-                                
+                                const authUserStore = useAuthUserStore()
+                                if(authUserStore.auth.isLogged){
+                                    next()
+                                }
+                                next("/guards/users/auth/login")
                             }
                         }
                     ]
