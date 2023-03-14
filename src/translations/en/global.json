@@ -25,6 +25,9 @@
         "password":"Forgot Password"
     },
     "logout":"Logout",
+    "users":"Users",
+    "users-list":"Report of Users",
+    "roles":"Rol User's",
     "reservations":"Reservations",
     "or":"OR",
     "submit":"Submit",

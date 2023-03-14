@@ -18,6 +18,17 @@ export const useAuthUserStore = defineStore('authUser',{
                 user:data.data.user,
                 credentials:data.data.token
             }
+        },
+        logout(){
+            this.auth = {
+                isLogged:false,
+                user:null,
+                credentials:null
+            }
         }
+    },
+    persist:{
+        enabled:true,
+        strategies:[{storage:localStorage}]
     }
 })

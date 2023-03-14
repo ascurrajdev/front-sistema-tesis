@@ -5,7 +5,8 @@ import {authUsersRoutes} from './authUsers'
 import {homeRoutesClients} from './homeClients'
 import {homeRoutesUsers} from './homeUsers'
 import MenuLayout from '@/components/MenuLayout.vue'
-import AuthLayout from '@/components/AuthLayout.vue'
+import AuthLayoutClient from '@/components/AuthLayoutClient.vue'
+import AuthLayoutUser from '@/components/AuthLayoutUser.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import {useAuthClientStore} from '@/stores/clients/authClient'
 import { useAuthUserStore } from '../stores/users/authUser'
@@ -17,7 +18,7 @@ export const router = createRouter({
             children: [
                 {
                     path:"clients",
-                    component:AuthLayout,
+                    component:AuthLayoutClient,
                     children: [
                         {
                             path:"auth",
@@ -48,11 +49,19 @@ export const router = createRouter({
                     children: [
                         {
                             path:"auth",
-                            children: authUsersRoutes
+                            children: authUsersRoutes,
+                            beforeEnter:(to, from, next) => {
+                                const authUserStore = useAuthUserStore()
+                                if(!authUserStore.auth.isLogged){
+                                    next()
+                                }
+                                next("/guards/users/home")
+                            }
                         },
                         {
                             path:"",
                             children: homeRoutesUsers,
+                            component:AuthLayoutUser,
                             beforeEnter:(to, from, next) => {
                                 const authUserStore = useAuthUserStore()
                                 if(authUserStore.auth.isLogged){
