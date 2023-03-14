@@ -3,12 +3,18 @@
     import {ref, watch, reactive} from 'vue'
     import { useI18n } from 'vue-i18n';
     import i18n from '@/translations/i18n';
-    import {useRouter} from 'vue-router'
+    import {useRouter, useRoute} from 'vue-router'
     import {useAuthUserStore} from '@/stores/users/authUser'
     const authUserStore = useAuthUserStore()
     const {t,locale} = useI18n({useScope:"global"})
     const current = ref([locale])
     const router = useRouter()
+    const route = useRoute()
+    if(!!route.fullPath){
+        current.value = [
+            route.fullPath
+        ]
+    }
     const collapsed = ref(true)
     watch(current,(newLanguage) => {
         if(i18n.global.availableLocales.includes(newLanguage[0])){
@@ -43,6 +49,9 @@
                     </template>
                     <a-menu-item-group title="Usuarios">
                         <a-menu-item key="/guards/users/users">{{ t('users-list') }}</a-menu-item>
+                    </a-menu-item-group>
+                    <a-menu-item-group title="Roles">
+                        <a-menu-item key="/guards/users/roles">{{ t("roles-list") }}</a-menu-item>
                     </a-menu-item-group>
                 </a-sub-menu>
                 <a-sub-menu key="language">
