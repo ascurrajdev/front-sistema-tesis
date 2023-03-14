@@ -3,6 +3,7 @@ import {defineStore} from 'pinia'
 export const useReservationStore = defineStore('reservations',{
     state:() => {
         return {
+            id:null,
             form:{
                 quantity:0,
                 product_price:0,
@@ -19,6 +20,9 @@ export const useReservationStore = defineStore('reservations',{
                 ...this.form,
                 ...form
             }
+        },
+        setId(id){
+            this.id = id
         }
     },
     getters:{

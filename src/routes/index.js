@@ -12,10 +12,11 @@ export const router = createRouter({
     routes:[
         {
             path:"/guards",
-            component: AuthLayout,
+            // component: AuthLayout,
             children: [
                 {
                     path:"clients",
+                    component:AuthLayout,
                     children: [
                         {
                             path:"auth",
@@ -47,6 +48,13 @@ export const router = createRouter({
                         {
                             path:"auth",
                             children: authUsersRoutes
+                        },
+                        {
+                            path:"",
+                            children: homeRoutesUsers,
+                            beforeEnter:(to, from, next) => {
+                                
+                            }
                         }
                     ]
                 }

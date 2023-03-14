@@ -24,6 +24,7 @@
     "forgot":{
         "password":"Forgot Password"
     },
+    "logout":"Logout",
     "reservations":"Reservations",
     "or":"OR",
     "submit":"Submit",

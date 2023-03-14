@@ -119,13 +119,16 @@
                 'Authorization': `Bearer ${authClient.auth.credentials.plainTextToken}`
             },
         }).then(({data: dataReservation}) => {
+            reservationStore.setId(dataReservation.data.id)
             apiClients.get(`invoice_due/payment/${dataReservation.data.invoiceDue[0].id}`,{
                 headers:{
                     'Content-Type':'application/json',
                     'Authorization': `Bearer ${authClient.auth.credentials.plainTextToken}`
                 },
             }).then(({data: dataPayment}) => {
-                window.open(dataPayment.data,'_blank')
+                if(reservationStore.id == dataReservation.data.id){
+                    window.open(dataPayment.data,'_blank')
+                }
             }).finally(() => {
                 loadingGeneratePayment.value = false
             })

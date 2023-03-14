@@ -12,10 +12,19 @@
     watch(current,(newLanguage) => {
         if(i18n.global.availableLocales.includes(newLanguage[0])){
             locale.value = newLanguage[0]
+        }else if(newLanguage[0] == "logout"){
+            onLogout()
         }else{
             router.push(newLanguage[0])
         }
     })
+    const onLogout = () => {
+        useAuthClient.logout()
+        router.push({
+            path:"/guards/clients/auth/login",
+            replace:true
+        })
+    }
 </script>
 <template>
     <a-layout class="flex h-screen">
@@ -52,6 +61,7 @@
                     </template>
                     <a-menu-item-group>
                         <a-menu-item key="/guards/clients/profile">{{t("profile")}}</a-menu-item>
+                        <a-menu-item key="logout">{{t("logout")}}</a-menu-item>
                     </a-menu-item-group>
                 </a-sub-menu>
             </a-menu>

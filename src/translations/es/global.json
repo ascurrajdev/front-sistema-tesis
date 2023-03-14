@@ -24,6 +24,7 @@
     "forgot":{
         "password":"Olvidaste tu Contraseña"
     },
+    "logout":"Cerrar Sesion",
     "or":"O",
     "reservations":"Reservaciones",
     "submit":"Enviar",

@@ -59,7 +59,7 @@
             <router-view class="h-full overflow-auto bg-white"></router-view>
         </a-layout-content>
         <a-layout-footer class="text-center">
-            Sistema Tesis ©2022
+            Sistema Tesis ©2023
         </a-layout-footer>
     </a-layout>
 </template>

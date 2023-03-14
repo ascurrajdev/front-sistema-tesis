@@ -34,7 +34,14 @@ export const useAuthClientStore = defineStore('authClient',{
             }catch(err){
                 throw err
             }
-        }
+        },
+        logout(){
+            this.auth = {
+                client:null,
+                credentials:null,
+                isLogged:false
+            }
+        },
     },
     persist:{
         enabled:true,
