@@ -45,8 +45,18 @@
     const onEditItem = (record) => {
         router.push(`roles/${record.id}`)
     }
+    const onGoToAddRole = () => {
+        router.push('roles/add')
+    }
 </script>
 <template>
+    <a-page-header 
+        title="Listado de Roles"
+    >
+        <template #extra>
+            <a-button @click="onGoToAddRole" type="primary">+ Nuevo Role</a-button>
+        </template>
+    </a-page-header>
     <a-table :data-source="data?.data" :columns="columns" bordered>
         <template #bodyCell="{column, text, record}">
             <template v-if="column.dataIndex == 'actions'">
