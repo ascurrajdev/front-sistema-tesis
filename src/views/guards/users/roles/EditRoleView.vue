@@ -4,6 +4,7 @@
     import {useQuery} from '@tanstack/vue-query'
     import apiUsers from '@/services/apiUsers'
     import { useI18n } from 'vue-i18n';
+    import {notification} from 'ant-design-vue'
     import { useAuthUserStore } from '@/stores/users/authUser';
     const route = useRoute()
     const router = useRouter()
@@ -17,6 +18,7 @@
         all:false,
         indeterminated: true
     })
+    const isSubmit = ref(false)
     const rolesAvailable = ref({})
     const authUserStore = useAuthUserStore()
     const getRoleUser = async () => {
@@ -87,11 +89,33 @@
     const goToBack = () => {
         router.go(-1)
     }
+    const onSubmitForm = () => {
+        let formData = form
+        if(fullAccess.all){
+            formData.abilities = ['*']
+        }
+        isSubmit.value = true
+        apiUsers.put(`roles/${route.params.id}`,formData,{
+            headers:{
+                'Authorization':`Bearer ${authUserStore.auth.credentials.plainTextToken}`
+            }
+        }).then(() => {
+            notification['success']({
+                message:'El role fue guardado correctamente'
+            })
+        }).catch((err) => {
+            notification['success']({
+                message:'Hubo un error al guardar el role'
+            })
+        }).finally(() => {
+            isSubmit.value = false
+        })
+    }
 </script>
 <template>
     <a-page-header title="Edit Role" @back="goToBack"/>
     <a-card>
-        <a-form layout="vertical" :model="form">
+        <a-form @finish="onSubmitForm" layout="vertical" :model="form">
             <a-form-item label="Name" name="name">
                 <a-input v-model:value="form.name"/>
             </a-form-item>
@@ -111,7 +135,7 @@
             </a-form-item>
             <a-form-item>
                 <a-space>
-                    <a-button type="primary" html-type="submit">Guardar</a-button>
+                    <a-button :loading="isSubmit" type="primary" html-type="submit">Guardar</a-button>
                     <a-button >Cancelar</a-button>
                 </a-space>
             </a-form-item>
