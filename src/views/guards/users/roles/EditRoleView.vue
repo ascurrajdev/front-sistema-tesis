@@ -1,13 +1,20 @@
 <script setup>
-    import {ref, watch} from 'vue'
+    import {ref, watch, reactive} from 'vue'
     import {useRoute} from 'vue-router';
     import {useQuery} from '@tanstack/vue-query'
     import apiUsers from '@/services/apiUsers'
+    import { useI18n } from 'vue-i18n';
     import { useAuthUserStore } from '@/stores/users/authUser';
     const route = useRoute()
-    const form = ref({
+    const {t} = useI18n()
+    const form = reactive({
         name:"",
         abilities:[]
+    })
+    const allOptionsAbilities = ref([])
+    const fullAccess = reactive({
+        all:false,
+        indeterminated: true
     })
     const rolesAvailable = ref({})
     const authUserStore = useAuthUserStore()
@@ -24,9 +31,37 @@
         queryFn: getRoleUser,
     })
     watch(data,(value) => {
-        form.value = value.data
+        form.name = value.data.name
+        form.abilities = value.data.abilities
+        if(value.data.abilities.includes('*')){
+            fullAccess.all = true
+            fullAccess.indeterminated = false
+        }
         rolesAvailable.value = value.roles_available
+        Object.values(value.roles_available).forEach(({children}) => {
+            children.forEach(({value}) => {
+                allOptionsAbilities.value = [
+                    ...allOptionsAbilities.value,
+                    value
+                ]
+            })
+        })
     })
+    watch(() => form.abilities, (value) => {
+        fullAccess.all = allOptionsAbilities.value.length == value.length
+        fullAccess.indeterminated = allOptionsAbilities.value.length != value.length
+        if(value.includes('*')){
+            form.abilities = ['*']
+            fullAccess.all = true
+            fullAccess.indeterminated = false
+        }
+    },{
+        deep:true
+    })
+    const onPressCheckAll = (e) => {
+        form.abilities = e.target.checked ? allOptionsAbilities.value : []
+        fullAccess.indeterminated = false
+    }
 </script>
 <template>
     <a-card title="Edit Role">
@@ -35,9 +70,17 @@
                 <a-input v-model:value="form.name"/>
             </a-form-item>
             <h2 class="text-lg">Permisos</h2>
-            <a-form-item :label="roles.label" v-for="roles in rolesAvailable">
-                <a-checkbox-group v-for="rol in roles.children" v-model="form.abilities">
-                    <a-checkbox :value="rol.value" name="abilities">{{rol.label}}</a-checkbox>
+            <a-form-item>
+                <a-checkbox value="*" @change="onPressCheckAll" :indeterminate="fullAccess.indeterminated" v-model:checked="fullAccess.all" name="abilities">{{ t('full-access') }}</a-checkbox>
+            </a-form-item>
+            <a-form-item>
+                <a-checkbox-group :disabled="fullAccess.all" v-model:value="form.abilities">
+                    <template v-for="roles in rolesAvailable">
+                        <h1>{{ roles.label }}</h1>
+                        <template v-for="role in roles.children">
+                            <a-checkbox :value="role.value">{{ role.label }}</a-checkbox>
+                        </template>
+                    </template>
                 </a-checkbox-group>
             </a-form-item>
             <a-form-item>
