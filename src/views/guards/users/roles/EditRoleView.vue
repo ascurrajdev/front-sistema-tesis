@@ -1,11 +1,12 @@
 <script setup>
-    import {ref, watch, reactive} from 'vue'
-    import {useRoute} from 'vue-router';
+    import {ref, watch, reactive, onMounted} from 'vue'
+    import {useRoute, useRouter} from 'vue-router';
     import {useQuery} from '@tanstack/vue-query'
     import apiUsers from '@/services/apiUsers'
     import { useI18n } from 'vue-i18n';
     import { useAuthUserStore } from '@/stores/users/authUser';
     const route = useRoute()
+    const router = useRouter()
     const {t} = useI18n()
     const form = reactive({
         name:"",
@@ -26,6 +27,26 @@
         })
         return data
     }
+    onMounted(() => {
+        if(!!data.value){
+            form.name = data.value.data.name
+            form.abilities = data.value.data.abilities
+            rolesAvailable.value = data.value.roles_available
+            Object.values(data.value.roles_available).forEach(({children}) => {
+                children.forEach(({value}) => {
+                    allOptionsAbilities.value = [
+                        ...allOptionsAbilities.value,
+                        value
+                    ]
+                })
+            })
+            if(data.value.data.abilities.includes('*')){
+                fullAccess.all = true
+                form.abilities = allOptionsAbilities.value
+                fullAccess.indeterminated = false
+            }
+        }
+    })
     const {data} = useQuery({
         queryKey:['role_users', route.params.id],
         queryFn: getRoleUser,
@@ -33,10 +54,6 @@
     watch(data,(value) => {
         form.name = value.data.name
         form.abilities = value.data.abilities
-        if(value.data.abilities.includes('*')){
-            fullAccess.all = true
-            fullAccess.indeterminated = false
-        }
         rolesAvailable.value = value.roles_available
         Object.values(value.roles_available).forEach(({children}) => {
             children.forEach(({value}) => {
@@ -46,6 +63,11 @@
                 ]
             })
         })
+        if(data.value.data.abilities.includes('*')){
+                fullAccess.all = true
+                form.abilities = allOptionsAbilities.value
+                fullAccess.indeterminated = false
+            }
     })
     watch(() => form.abilities, (value) => {
         fullAccess.all = allOptionsAbilities.value.length == value.length
@@ -62,9 +84,13 @@
         form.abilities = e.target.checked ? allOptionsAbilities.value : []
         fullAccess.indeterminated = false
     }
+    const goToBack = () => {
+        router.go(-1)
+    }
 </script>
 <template>
-    <a-card title="Edit Role">
+    <a-page-header title="Edit Role" @back="goToBack"/>
+    <a-card>
         <a-form layout="vertical" :model="form">
             <a-form-item label="Name" name="name">
                 <a-input v-model:value="form.name"/>
