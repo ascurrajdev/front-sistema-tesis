@@ -4,6 +4,9 @@ import HomeView from '@/views/guards/users/home/HomeView.vue'
 import ListRolesView from '@/views/guards/users/roles/ListRolesView.vue'
 import EditRoleView from '@/views/guards/users/roles/EditRoleView.vue'
 import CreateRoleView from '@/views/guards/users/roles/CreateRoleView.vue'
+import ListUsersView from '@/views/guards/users/users/ListUsersView.vue'
+import CreateUsersView from '@/views/guards/users/users/CreateUsersView.vue'
+import UpdateUsersView from '@/views/guards/users/users/UpdateUsersView.vue'
 const checkAbilities = (to, from, next) => {
     const authUserStore = useAuthUserStore()
     if(authUserStore.auth.credentials.abilities.includes(to.meta.ability)){
@@ -22,7 +25,7 @@ export const homeRoutesUsers = [
     },
     {
         path:"home",
-        component:HomeView
+        component:HomeView 
     },
     {
         path:"roles",
@@ -45,6 +48,30 @@ export const homeRoutesUsers = [
         component:CreateRoleView,
         meta:{
             ability:'roles-users-store'
+        },
+        beforeEnter:[checkAbilities]
+    },
+    {
+        path:"users",
+        component:ListUsersView,
+        meta:{
+            ability:'users-index'
+        },
+        beforeEnter:[checkAbilities]
+    },
+    {
+        path:"users/:id",
+        component:UpdateUsersView,
+        meta:{
+            ability:'users-update'
+        },
+        beforeEnter:[checkAbilities]
+    },
+    {
+        path:"users/add",
+        component:CreateUsersView,
+        meta:{
+            ability:'users-store'
         },
         beforeEnter:[checkAbilities]
     }
