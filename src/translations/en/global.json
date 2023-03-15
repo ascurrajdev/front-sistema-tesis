@@ -26,6 +26,8 @@
     },
     "logout":"Logout",
     "users":"Users",
+    "restricted-access":"Restricted",
+    "full-access":"Full",
     "users-list":"Report of Users",
     "roles-list":"List of Roles",
     "roles":"Rol User's",

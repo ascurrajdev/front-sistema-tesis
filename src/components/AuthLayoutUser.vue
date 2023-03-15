@@ -15,7 +15,7 @@
             route.fullPath
         ]
     }
-    const collapsed = ref(true)
+    const collapsed = ref(false)
     watch(current,(newLanguage) => {
         if(i18n.global.availableLocales.includes(newLanguage[0])){
             locale.value = newLanguage[0]

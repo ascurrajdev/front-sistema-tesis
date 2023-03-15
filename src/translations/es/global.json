@@ -27,6 +27,8 @@
     "logout":"Cerrar Sesion",
     "or":"O",
     "users":"Usuarios",
+    "restricted-access":"Restringido",
+    "full-access":"Acceso Total",
     "users-list":"Reporte de Usuarios",
     "roles-list":"Listado de Roles",
     "roles":"Roles de Usuario",
