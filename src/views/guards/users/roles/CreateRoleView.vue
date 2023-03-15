@@ -89,7 +89,7 @@
                 message:'El role fue guardado correctamente'
             })
         }).catch((err) => {
-            notification['success']({
+            notification['error']({
                 message:'Hubo un error al guardar el role'
             })
         }).finally(() => {
