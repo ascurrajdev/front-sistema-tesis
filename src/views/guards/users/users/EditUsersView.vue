@@ -1,10 +1,11 @@
 <script setup>
-import { reactive } from 'vue';
-import { useRouter } from 'vue-router';
+import { reactive, onMounted, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import apiUsers from '@/services/apiUsers'
 import {useQuery} from '@tanstack/vue-query'
 import { useAuthUserStore } from '@/stores/users/authUser';
 const router = useRouter()
+const route = useRoute()
 const authUserStore = useAuthUserStore()
 const onBackHeader = () => {
     router.back()
@@ -21,6 +22,18 @@ const {data} = useQuery({
     queryKey:['role_users'],
     queryFn:getAllRoles
 })
+const getUserData = async () => {
+    const {data} = await apiUsers.get(`${route.params.id}`,{
+        headers:{
+            'Authorization':`Bearer ${authUserStore.auth.credentials.plainTextToken}`
+        }
+    })
+    return data
+}
+const {data:userData} = useQuery({
+    queryKey:['users',route.params.id],
+    queryFn:getUserData
+})
 const form = reactive({
     name:'',
     email:'',
@@ -28,9 +41,23 @@ const form = reactive({
     password:'',
     password_confirmation:''
 })
+onMounted(() => {
+    if(!!userData.value){
+        Object.assign(form,{
+            ...userData.value.data
+        })
+    }
+})
+watch(userData,(value) => {
+    if(!!value){
+        Object.assign(form,{
+            ...value.data
+        })
+    }
+})
 </script>
 <template>
-    <a-page-header title="Create User" @back="onBackHeader"/>
+    <a-page-header title="Edit User" @back="onBackHeader"/>
     <a-card>
         <a-form layout="vertical" :model="form" autocomplete="off">
             <a-form-item name="name" label="Name">

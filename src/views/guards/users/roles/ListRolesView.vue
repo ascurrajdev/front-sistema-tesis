@@ -60,7 +60,7 @@
     <a-table :data-source="data?.data" :columns="columns" bordered>
         <template #bodyCell="{column, text, record}">
             <template v-if="column.dataIndex == 'actions'">
-                <a-button @click="onEditItem(record)" type="primary">Edit</a-button>
+                <a @click="onEditItem(record)" type="primary">Edit</a>
             </template>
             <template v-else-if="column.dataIndex == 'access'">
                 <span v-if="record.abilities[0] == '*'">

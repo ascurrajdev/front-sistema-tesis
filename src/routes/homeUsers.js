@@ -6,10 +6,10 @@ import EditRoleView from '@/views/guards/users/roles/EditRoleView.vue'
 import CreateRoleView from '@/views/guards/users/roles/CreateRoleView.vue'
 import ListUsersView from '@/views/guards/users/users/ListUsersView.vue'
 import CreateUsersView from '@/views/guards/users/users/CreateUsersView.vue'
-import UpdateUsersView from '@/views/guards/users/users/UpdateUsersView.vue'
+import EditUsersView from '@/views/guards/users/users/EditUsersView.vue'
 const checkAbilities = (to, from, next) => {
     const authUserStore = useAuthUserStore()
-    if(authUserStore.auth.credentials.abilities.includes(to.meta.ability)){
+    if(authUserStore.auth.credentials.abilities.includes(to.meta.ability) || authUserStore.auth.credentials.abilities.includes('*')){
         next()
     }else{
         notification['warning']({
@@ -61,7 +61,7 @@ export const homeRoutesUsers = [
     },
     {
         path:"users/:id",
-        component:UpdateUsersView,
+        component:EditUsersView,
         meta:{
             ability:'users-update'
         },
