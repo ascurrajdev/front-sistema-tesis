@@ -1,3 +1,4 @@
 <template>
-    <h1>Not found View</h1>
+    <a-result status="404" title="404" sub-title="Lo sentimos, esta pagina no existe">
+    </a-result>
 </template>

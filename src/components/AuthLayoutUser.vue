@@ -1,5 +1,5 @@
 <script setup>
-    import {TranslationOutlined,HomeOutlined,UserOutlined, TeamOutlined, SolutionOutlined ,ShopOutlined, ScheduleOutlined,MenuUnfoldOutlined, MenuFoldOutlined} from '@ant-design/icons-vue'
+    import {TranslationOutlined,HomeOutlined,UserOutlined, SettingOutlined,TeamOutlined, SolutionOutlined ,ShopOutlined, ScheduleOutlined,MenuUnfoldOutlined, MenuFoldOutlined} from '@ant-design/icons-vue'
     import {ref, watch, reactive} from 'vue'
     import { useI18n } from 'vue-i18n';
     import i18n from '@/translations/i18n';
@@ -40,6 +40,23 @@
                     </template>
                     {{t('home')}}
                 </a-menu-item>
+                <a-sub-menu>
+                    <template #icon>
+                        <setting-outlined />
+                    </template>
+                    <template #title>
+                        Configuraciones
+                    </template>
+                    <a-menu-item-group title="Monedas">
+                        <a-menu-item key="/guards/users/currencies">Listado</a-menu-item>
+                    </a-menu-item-group>
+                    <a-menu-item-group title="Formas de Pago">
+                        <a-menu-item key="/guards/users/payments">Listado</a-menu-item>
+                    </a-menu-item-group>
+                    <a-menu-item-group title="Sucursales">
+                        <a-menu-item key="/guards/users/agencies">Listado</a-menu-item>
+                    </a-menu-item-group>
+                </a-sub-menu>
                 <a-sub-menu>
                     <template #icon>
                         <team-outlined />

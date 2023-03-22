@@ -7,6 +7,9 @@ import CreateRoleView from '@/views/guards/users/roles/CreateRoleView.vue'
 import ListUsersView from '@/views/guards/users/users/ListUsersView.vue'
 import CreateUsersView from '@/views/guards/users/users/CreateUsersView.vue'
 import EditUsersView from '@/views/guards/users/users/EditUsersView.vue'
+import ListProductsView from '@/views/guards/users/products/ListProductsView.vue'
+import ListCurrencies from '@/views/guards/users/currencies/ListCurrencies.vue'
+import ListPayments from '@/views/guards/users/payments/ListPayments.vue'
 const checkAbilities = (to, from, next) => {
     const authUserStore = useAuthUserStore()
     if(authUserStore.auth.credentials.abilities.includes(to.meta.ability) || authUserStore.auth.credentials.abilities.includes('*')){
@@ -26,6 +29,31 @@ export const homeRoutesUsers = [
     {
         path:"home",
         component:HomeView 
+    },
+    {
+        path:"currencies",
+        component:ListCurrencies,
+        meta:{
+            ability:'currencies-index'
+        },
+        beforeEnter:[checkAbilities]
+    },
+    {
+        path:"payments",
+        component:ListPayments,
+        meta:{
+            ability:'payments-index'
+        },
+        beforeEnter:[checkAbilities]
+    },
+
+    {
+        path:"products",
+        component:ListProductsView,
+        meta:{
+            ability:'products-index'
+        },
+        beforeEnter:[checkAbilities]
     },
     {
         path:"roles",
