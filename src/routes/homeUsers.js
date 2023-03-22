@@ -10,6 +10,7 @@ import EditUsersView from '@/views/guards/users/users/EditUsersView.vue'
 import ListProductsView from '@/views/guards/users/products/ListProductsView.vue'
 import ListCurrencies from '@/views/guards/users/currencies/ListCurrencies.vue'
 import ListPayments from '@/views/guards/users/payments/ListPayments.vue'
+import ListAgencies from '@/views/guards/users/agencies/ListAgencies.vue'
 const checkAbilities = (to, from, next) => {
     const authUserStore = useAuthUserStore()
     if(authUserStore.auth.credentials.abilities.includes(to.meta.ability) || authUserStore.auth.credentials.abilities.includes('*')){
@@ -43,6 +44,14 @@ export const homeRoutesUsers = [
         component:ListPayments,
         meta:{
             ability:'payments-index'
+        },
+        beforeEnter:[checkAbilities]
+    },
+    {
+        path:"agencies",
+        component:ListAgencies,
+        meta:{
+            ability:'agencies-index'
         },
         beforeEnter:[checkAbilities]
     },
