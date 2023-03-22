@@ -24,8 +24,13 @@
     "forgot":{
         "password":"Forgot Password"
     },
+    "products":"Products",
+    "billing":"Billing",
     "logout":"Logout",
     "users":"Users",
+    "report products":"Report of Products",
+    "report reservations":"Report of Reservations",
+    "report invoices":"Report of Invoices",
     "restricted-access":"Restricted",
     "full-access":"Full",
     "users-list":"Report of Users",

@@ -1,5 +1,5 @@
 <script setup>
-    import {TranslationOutlined,HomeOutlined,UserOutlined, TeamOutlined, MenuUnfoldOutlined, MenuFoldOutlined} from '@ant-design/icons-vue'
+    import {TranslationOutlined,HomeOutlined,UserOutlined, TeamOutlined, SolutionOutlined ,ShopOutlined, ScheduleOutlined,MenuUnfoldOutlined, MenuFoldOutlined} from '@ant-design/icons-vue'
     import {ref, watch, reactive} from 'vue'
     import { useI18n } from 'vue-i18n';
     import i18n from '@/translations/i18n';
@@ -52,6 +52,27 @@
                     </a-menu-item-group>
                     <a-menu-item-group title="Roles">
                         <a-menu-item key="/guards/users/roles">{{ t("roles-list") }}</a-menu-item>
+                    </a-menu-item-group>
+                </a-sub-menu>
+                <a-sub-menu>
+                    <template #icon><shop-outlined /></template>
+                    <template #title>{{t('products')}}</template>
+                    <a-menu-item-group title="Productos">
+                        <a-menu-item key="/guards/users/products">{{ t("report products") }}</a-menu-item>
+                    </a-menu-item-group>
+                </a-sub-menu>
+                <a-sub-menu>
+                    <template #icon><schedule-outlined /></template>
+                    <template #title>{{t('reservations')}}</template>
+                    <a-menu-item-group title="Reservaciones">
+                        <a-menu-item key="/guards/users/reservations">{{ t("report reservations") }}</a-menu-item>
+                    </a-menu-item-group>
+                </a-sub-menu>
+                <a-sub-menu>
+                    <template #icon><solution-outlined /></template>
+                    <template #title>{{t('billing')}}</template>
+                    <a-menu-item-group title="Facturas">
+                        <a-menu-item key="/guards/users/invoices">{{t("report invoices")}}</a-menu-item>
                     </a-menu-item-group>
                 </a-sub-menu>
                 <a-sub-menu key="language">
