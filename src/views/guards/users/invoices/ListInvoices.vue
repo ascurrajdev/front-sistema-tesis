@@ -15,12 +15,16 @@ const columns = [
         dataIndex:"id"
     },
     {
-        title:"Nombre",
-        dataIndex:"name",
+        title:"Total a Pagar",
+        dataIndex:'total_amount'
     },
     {
-        title:"Precio Venta",
-        dataIndex:"amount",
+        title:"Tipo de Operacion",
+        dataIndex:'operation_type',
+    },
+    {
+        title:"Creado",
+        dataIndex:'created_at'
     },
     {
         title:"Acciones",
@@ -28,7 +32,7 @@ const columns = [
     }
 ]
 const getAllCurrencies = async () => {
-    const {data} = await apiUsers.get('products',{
+    const {data} = await apiUsers.get('invoices',{
         headers:{
             'Authorization':`Bearer ${authUserStore.auth.credentials.plainTextToken}`
         }
@@ -42,10 +46,10 @@ const {data} = useQuery({
 </script>
 <template>
     <a-page-header 
-        title="Listado de Productos"
+        title="Listado de Facturas"
     >
         <template #extra>
-            <a-button @click="onGoToAddCurrency" type="primary">+ Nuevo Producto</a-button>
+            <a-button @click="onGoToAddCurrency" type="primary">+ Nueva Factura</a-button>
         </template>
     </a-page-header>
     <a-table :data-source="data?.data" :columns="columns" bordered>
