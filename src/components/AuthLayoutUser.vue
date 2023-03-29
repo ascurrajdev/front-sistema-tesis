@@ -91,6 +91,9 @@
                     <a-menu-item-group title="Facturas">
                         <a-menu-item key="/guards/users/invoices">{{t("report invoices")}}</a-menu-item>
                     </a-menu-item-group>
+                    <a-menu-item-group title="Pagos">
+                        <a-menu-item key="/guards/users/collections">{{t("report collections")}}</a-menu-item>
+                    </a-menu-item-group>
                 </a-sub-menu>
                 <a-sub-menu key="language">
                     <template #icon>
