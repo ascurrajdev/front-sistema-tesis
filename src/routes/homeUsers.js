@@ -13,6 +13,7 @@ import ListPayments from '@/views/guards/users/payments/ListPayments.vue'
 import ListAgencies from '@/views/guards/users/agencies/ListAgencies.vue'
 import ListInvoices from '@/views/guards/users/invoices/ListInvoices.vue'
 import ListCollections from '@/views/guards/users/collections/ListCollections.vue'
+import ListReservations from '@/views/guards/users/reservations/ListReservations.vue'
 const checkAbilities = (to, from, next) => {
     const authUserStore = useAuthUserStore()
     if(authUserStore.auth.credentials.abilities.includes(to.meta.ability) || authUserStore.auth.credentials.abilities.includes('*')){
@@ -36,6 +37,14 @@ export const homeRoutesUsers = [
     {
         path:"invoices",
         component:ListInvoices,
+        meta:{
+            ability:'invoices-index'
+        },
+        beforeEnter:[checkAbilities]
+    },
+    {
+        path:"reservations",
+        component:ListReservations,
         meta:{
             ability:'invoices-index'
         },

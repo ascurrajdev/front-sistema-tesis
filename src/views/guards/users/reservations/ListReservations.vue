@@ -15,8 +15,20 @@ const columns = [
         dataIndex:"id"
     },
     {
+        title:"Desde",
+        dataIndex:'date_from'
+    },
+    {
+        title:"Hasta",
+        dataIndex:'date_to'
+    },
+    {
         title:"Monto Total",
         dataIndex:'total_amount'
+    },
+    {
+        title:"Notas",
+        dataIndex:'notes'
     },
     {
         title:"Creado",
@@ -27,8 +39,8 @@ const columns = [
         dataIndex:"actions"
     }
 ]
-const getAllCollections = async () => {
-    const {data} = await apiUsers.get('collections',{
+const getAllReservations = async () => {
+    const {data} = await apiUsers.get('reservations',{
         headers:{
             'Authorization':`Bearer ${authUserStore.auth.credentials.plainTextToken}`
         }
@@ -36,16 +48,16 @@ const getAllCollections = async () => {
     return data
 }
 const {data} = useQuery({
-    queryKey:['collections'],
-    queryFn:getAllCollections
+    queryKey:['reservations'],
+    queryFn:getAllReservations
 })
 </script>
 <template>
     <a-page-header 
-        title="Listado de Pagos"
+        title="Listado de Reservaciones"
     >
         <template #extra>
-            <a-button @click="onGoToAddCurrency" type="primary">+ Nuevo Pago</a-button>
+            <a-button @click="onGoToAddCurrency" type="primary">+ Nueva Reservacion</a-button>
         </template>
     </a-page-header>
     <a-table :data-source="data?.data" :columns="columns" bordered>
