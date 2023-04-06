@@ -2,16 +2,13 @@
     <div class="w-full px-5">
         <h1 class="text-2xl">Hola, Jose Ascurra</h1>
         <a-row>
-            <a-col :span="6">
-                <a-statistic title="Usuarios" :value="4" />
-            </a-col>
-            <a-col :span="6">
+            <a-col :span="8">
                 <a-statistic title="Reservaciones (Este Mes)" :value="12" />
             </a-col>
-            <a-col :span="6">
+            <a-col :span="8">
                 <a-statistic title="Ingresos (Este Mes)" :value="120000000" />
             </a-col>
-            <a-col :span="6">
+            <a-col :span="8">
                 <a-statistic title="Pendientes (Este Mes)" :value="1200000" />
             </a-col>
         </a-row>

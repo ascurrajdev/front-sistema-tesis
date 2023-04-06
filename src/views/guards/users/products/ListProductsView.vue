@@ -1,9 +1,11 @@
 <script setup>
 import apiUsers from '@/services/apiUsers'
 import { useQuery } from '@tanstack/vue-query';
+import { useRouter } from 'vue-router';
 import { useAuthUserStore } from '@/stores/users/authUser';
-const onGoToAddCurrency = () => {
-
+const router = useRouter()
+const onGoToAddProduct = () => {
+    router.push('products/add')
 }
 const onEditItem = (record) => {
 
@@ -45,7 +47,7 @@ const {data} = useQuery({
         title="Listado de Productos"
     >
         <template #extra>
-            <a-button @click="onGoToAddCurrency" type="primary">+ Nuevo Producto</a-button>
+            <a-button @click="onGoToAddProduct" type="primary">+ Nuevo Producto</a-button>
         </template>
     </a-page-header>
     <a-table :data-source="data?.data" :columns="columns" bordered>

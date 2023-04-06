@@ -14,6 +14,7 @@ import ListAgencies from '@/views/guards/users/agencies/ListAgencies.vue'
 import ListInvoices from '@/views/guards/users/invoices/ListInvoices.vue'
 import ListCollections from '@/views/guards/users/collections/ListCollections.vue'
 import ListReservations from '@/views/guards/users/reservations/ListReservations.vue'
+import CreateProductView from '@/views/guards/users/products/CreateProductView.vue'
 const checkAbilities = (to, from, next) => {
     const authUserStore = useAuthUserStore()
     if(authUserStore.auth.credentials.abilities.includes(to.meta.ability) || authUserStore.auth.credentials.abilities.includes('*')){
@@ -89,7 +90,15 @@ export const homeRoutesUsers = [
         meta:{
             ability:'products-index'
         },
-        beforeEnter:[checkAbilities]
+        beforeEnter:[checkAbilities],
+    },
+    {
+        path:"products/add",
+        component:CreateProductView,
+        meta:{
+            ability:'products-store'
+        },
+        beforeEnter:[checkAbilities],
     },
     {
         path:"roles",
