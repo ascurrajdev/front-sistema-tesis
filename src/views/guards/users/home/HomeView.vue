@@ -22,7 +22,7 @@
                     <template #layers>
                         <Grid strokeDasharray="2,2" />
                         <Line :dataKeys="['name', 'pl']" />
-                        <Line :dataKeys="['name', 'avg']" :lineStyle="{ stroke: 'red' }" type="step" />
+                        <Line :dataKeys="['name', 'avg']" :lineStyle="{ stroke: 'red' }" />
                     </template>
                     <template #widgets>
                         <Tooltip

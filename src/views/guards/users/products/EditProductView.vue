@@ -85,22 +85,22 @@
     }
     const {data} = useQuery({queryKey:['products', route.params.id], queryFn: getDataOfProduct})
     watch(data, (value) => {
-        Object.keys(value).forEach((key) => {
+        Object.keys(formState).forEach((key) => {
             formState[key] = value[key]
         })
     })
     const isSubmitting = ref(false)
     const onFinishForm = () => {
         isSubmitting.value = true
-        apiUsers.post("products",formState,{
+        apiUsers.put(`products/${route.params.id}`,formState,{
             headers:{
                 'Authorization': `Bearer ${authUserStore.auth.credentials.plainTextToken}`
             }
         }).then(() => {
-            message.success("El producto se ha registrado correctamente")
+            message.success("El producto se ha guardado correctamente")
             router.push("/guards/users/products")
         }).catch(() => {
-            message.error("Error al registrar el producto")
+            message.error("Error al actualizar el producto")
         }).finally(() => {
             isSubmitting.value = false
         })
@@ -127,7 +127,7 @@
     })
     onMounted(() => {
        if(!!data.value){
-            Object.keys(data.value).forEach((key) => {
+            Object.keys(formState).forEach((key) => {
                 formState[key] = data.value[key]
             })
        }
