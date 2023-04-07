@@ -8,7 +8,7 @@ const onGoToAddProduct = () => {
     router.push('products/add')
 }
 const onEditItem = (record) => {
-
+    router.push(`products/${record.id}/edit`)
 }
 const authUserStore = useAuthUserStore()
 const columns = [

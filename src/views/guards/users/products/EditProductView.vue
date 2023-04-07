@@ -1,5 +1,5 @@
 <template>
-    <a-page-header title="Create Product" @back="onBackHeader"/>
+    <a-page-header title="Update Product" @back="onBackHeader"/>
     <a-card>
         <a-form @finish="onFinishForm" :model="formState" layout="vertical">
             <a-row :gutter="24">
