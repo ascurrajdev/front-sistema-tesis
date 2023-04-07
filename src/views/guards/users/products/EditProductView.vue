@@ -26,7 +26,7 @@
                         label="Impuesto"
                         name="tax_id"
                     >
-                        <a-select v-model:value="formState.tax_id" :options="taxes" @change="onChangeSelect">
+                        <a-select v-model:value="formState.tax_id" :options="taxes">
                         </a-select>
                     </a-form-item>
                 </a-col>
@@ -35,7 +35,7 @@
                 <a-checkbox v-model:checked="formState.stockable">Activar Stock de Este Producto</a-checkbox>
             </a-form-item>
             <a-form-item>
-                <a-checkbox v-model:checked="formState.active_for_reservations">Activar para Reservaciones</a-checkbox>
+                <a-checkbox v-model:checked="formState.active_for_reservation">Activar para Reservaciones</a-checkbox>
             </a-form-item>
             <a-form-item>
                 <a-checkbox v-model:checked="formState.is_lodging">Es Hospedaje</a-checkbox>
@@ -63,16 +63,32 @@
     </a-card>
 </template>
 <script setup>
-    import { reactive, watch, ref } from 'vue';
-    import { useRouter } from 'vue-router';
+    import { reactive, watch, ref, onMounted } from 'vue';
+    import { useRouter, useRoute } from 'vue-router';
+    import { useQuery } from '@tanstack/vue-query';
     import {message} from 'ant-design-vue'
     import apiUsers from '@/services/apiUsers'
-    import { useAuthUserStore } from '../../../../stores/users/authUser';
+    import { useAuthUserStore } from '@/stores/users/authUser';
     const router = useRouter()
+    const route = useRoute()
     const authUserStore = useAuthUserStore()
     const onBackHeader = () => {
         router.back()
     }
+    const getDataOfProduct = async () => {
+        const {data} = await apiUsers.get(`products/${route.params.id}`,{
+            headers:{
+                'Authorization':`Bearer ${authUserStore.auth.credentials.plainTextToken}`
+            }
+        })
+        return data.data
+    }
+    const {data} = useQuery({queryKey:['products', route.params.id], queryFn: getDataOfProduct})
+    watch(data, (value) => {
+        Object.keys(value).forEach((key) => {
+            formState[key] = value[key]
+        })
+    })
     const isSubmitting = ref(false)
     const onFinishForm = () => {
         isSubmitting.value = true
@@ -108,6 +124,13 @@
         is_lodging: false,
         capacity_for_day_max:"",
         capacity_for_day_min:""
+    })
+    onMounted(() => {
+       if(!!data.value){
+            Object.keys(data.value).forEach((key) => {
+                formState[key] = data.value[key]
+            })
+       }
     })
     watch(
         () => formState.is_lodging,
