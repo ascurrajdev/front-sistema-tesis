@@ -2,8 +2,10 @@
 import apiUsers from '@/services/apiUsers'
 import { useQuery } from '@tanstack/vue-query';
 import { useAuthUserStore } from '@/stores/users/authUser';
+import { useRouter } from 'vue-router';
+const router = useRouter()
 const onGoToAddCurrency = () => {
-
+    router.push('payments/add')
 }
 const onEditItem = (record) => {
 
