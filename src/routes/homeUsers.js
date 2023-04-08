@@ -20,6 +20,8 @@ import CreateCurrencyView from '@/views/guards/users/currencies/CreateCurrencyVi
 import EditCurrencyView from '@/views/guards/users/currencies/EditCurrencyView.vue'
 import CreatePaymentView from '@/views/guards/users/payments/CreatePaymentView.vue'
 import EditPaymentView from '@/views/guards/users/payments/EditPaymentView.vue'
+import CreateAgency from '@/views/guards/users/agencies/CreateAgency.vue'
+import EditAgency from '@/views/guards/users/agencies/EditAgency.vue'
 const checkAbilities = (to, from, next) => {
     const authUserStore = useAuthUserStore()
     if(authUserStore.auth.credentials.abilities.includes(to.meta.ability) || authUserStore.auth.credentials.abilities.includes('*')){
@@ -120,7 +122,30 @@ export const homeRoutesUsers = [
         },
         beforeEnter:[checkAbilities]
     },
-
+    {
+        path:"agencies/add",
+        component:CreateAgency,
+        meta:{
+            ability:'agencies-store'
+        },
+        beforeEnter:[checkAbilities]
+    },
+    {
+        path:"agencies/:id/edit",
+        component:EditAgency,
+        meta:{
+            ability:'agencies-update'
+        },
+        beforeEnter:[checkAbilities]
+    },
+    {
+        path:"agencies/add",
+        component:CreateAgency,
+        meta:{
+            ability:'agencies-store'
+        },
+        beforeEnter:[checkAbilities]
+    },
     {
         path:"products",
         component:ListProductsView,

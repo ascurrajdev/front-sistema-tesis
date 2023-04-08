@@ -2,11 +2,13 @@
 import apiUsers from '@/services/apiUsers'
 import { useQuery } from '@tanstack/vue-query';
 import { useAuthUserStore } from '@/stores/users/authUser';
+import { useRouter } from 'vue-router';
+const router = useRouter()
 const onGoToAddCurrency = () => {
-
+    router.push("agencies/add")
 }
 const onEditItem = (record) => {
-
+    router.push(`agencies/${record.id}/edit`)
 }
 const authUserStore = useAuthUserStore()
 const columns = [
