@@ -1,9 +1,11 @@
 <script setup>
 import apiUsers from '@/services/apiUsers'
 import { useQuery } from '@tanstack/vue-query';
+import { useRouter } from 'vue-router';
 import { useAuthUserStore } from '@/stores/users/authUser';
+const router = useRouter()
 const onGoToAddCurrency = () => {
-
+    router.push('currencies/add')
 }
 const onEditItem = (record) => {
 

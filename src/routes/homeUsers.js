@@ -16,6 +16,7 @@ import ListCollections from '@/views/guards/users/collections/ListCollections.vu
 import ListReservations from '@/views/guards/users/reservations/ListReservations.vue'
 import CreateProductView from '@/views/guards/users/products/CreateProductView.vue'
 import EditProductView from '@/views/guards/users/products/EditProductView.vue'
+import CreateCurrencyView from '@/views/guards/users/currencies/CreateCurrencyView.vue'
 const checkAbilities = (to, from, next) => {
     const authUserStore = useAuthUserStore()
     if(authUserStore.auth.credentials.abilities.includes(to.meta.ability) || authUserStore.auth.credentials.abilities.includes('*')){
@@ -65,6 +66,14 @@ export const homeRoutesUsers = [
         component:ListCurrencies,
         meta:{
             ability:'currencies-index'
+        },
+        beforeEnter:[checkAbilities]
+    },
+    {
+        path:"currencies/add",
+        component:CreateCurrencyView,
+        meta:{
+            ability:'currencies-store',
         },
         beforeEnter:[checkAbilities]
     },
