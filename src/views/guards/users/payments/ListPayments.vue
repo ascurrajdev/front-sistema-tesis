@@ -8,7 +8,7 @@ const onGoToAddCurrency = () => {
     router.push('payments/add')
 }
 const onEditItem = (record) => {
-
+    router.push(`payments/${record.id}/edit`)
 }
 const authUserStore = useAuthUserStore()
 const columns = [

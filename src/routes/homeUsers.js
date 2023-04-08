@@ -19,6 +19,7 @@ import EditProductView from '@/views/guards/users/products/EditProductView.vue'
 import CreateCurrencyView from '@/views/guards/users/currencies/CreateCurrencyView.vue'
 import EditCurrencyView from '@/views/guards/users/currencies/EditCurrencyView.vue'
 import CreatePaymentView from '@/views/guards/users/payments/CreatePaymentView.vue'
+import EditPaymentView from '@/views/guards/users/payments/EditPaymentView.vue'
 const checkAbilities = (to, from, next) => {
     const authUserStore = useAuthUserStore()
     if(authUserStore.auth.credentials.abilities.includes(to.meta.ability) || authUserStore.auth.credentials.abilities.includes('*')){
@@ -92,6 +93,14 @@ export const homeRoutesUsers = [
         component:ListPayments,
         meta:{
             ability:'payments-index'
+        },
+        beforeEnter:[checkAbilities]
+    },
+    {
+        path:"payments/:id/edit",
+        component:EditPaymentView,
+        meta:{
+            ability:'payments-update'
         },
         beforeEnter:[checkAbilities]
     },
