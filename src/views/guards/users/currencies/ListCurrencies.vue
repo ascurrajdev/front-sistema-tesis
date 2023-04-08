@@ -8,7 +8,7 @@ const onGoToAddCurrency = () => {
     router.push('currencies/add')
 }
 const onEditItem = (record) => {
-
+    router.push(`currencies/${record.id}/edit`)
 }
 const authUserStore = useAuthUserStore()
 const columns = [
@@ -22,7 +22,7 @@ const columns = [
     },
     {
         title:"Formato",
-        dataIndex:"format",
+        dataIndex:"currency_format",
     },
     {
         title:"Decimales",

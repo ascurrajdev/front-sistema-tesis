@@ -1,6 +1,6 @@
 <template>
     <a-page-header 
-        title="Create Currency"
+        title="Edit Currency"
         @back="onBack"
     />
     <a-card>
@@ -37,19 +37,46 @@
     </a-card>
 </template>
 <script setup>
-import { reactive, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { reactive, ref, watch, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { useQuery } from '@tanstack/vue-query';
 import { useAuthUserStore } from '@/stores/users/authUser';
 import { message } from 'ant-design-vue';
 import api from '@/services/api'
 import apiUsers from '@/services/apiUsers'
 const router = useRouter()
+const route = useRoute()
 const authUserStore = useAuthUserStore()
 const getAllCurrencyCodes = async () => {
     const {data} = await api.get('currency-codes')
     return data.data
 }
+const getCurrency = async () => {
+    const {data} = await apiUsers.get(`currencies/${route.params.id}`,{
+        headers:{
+            'Authorization':`Bearer ${authUserStore.auth.credentials.plainTextToken}`
+        }
+    })
+    return data.data
+}
+const {data} = useQuery({
+    queryKey:['currencies',route.params.id],
+    queryFn: getCurrency
+})
+watch(data, (value) => {
+    if(!!value){
+        Object.keys(formState).forEach((key) => {
+            formState[key] = value[key]
+        })
+    }
+})
+onMounted(() => {
+    if(!!data.value){
+        Object.keys(formState).forEach((key) => {
+            formState[key] = data.value[key]
+        })
+    }
+})
 const onBack = () => {
     router.back()
 }
@@ -62,15 +89,15 @@ const formState = reactive({
 const isSubmitting = ref(false)
 const onFinish = () => {
     isSubmitting.value = true
-    apiUsers.post('currencies',formState,{
+    apiUsers.put(`currencies/${route.params.id}`,formState,{
         headers:{
             'Authorization':`Bearer ${authUserStore.auth.credentials.plainTextToken}`
         }
     }).then(() => {
-        message.success("Se ha creado la moneda correctamente")
+        message.success("Se ha modificado la moneda correctamente")
         router.push("/guards/users/currencies")
     }).catch(() => {
-        message.error("Error al crear la moneda")
+        message.error("Error al modificar la moneda")
     }).finally(() => {
         isSubmitting.value = false
     })
