@@ -1,6 +1,6 @@
 <template>
     <div class="w-full px-5">
-        <h1 class="text-2xl">Hola, Jose Ascurra</h1>
+        <h1 class="text-2xl">Hola, {{ authUserStore.auth.user.name }}</h1>
         <a-row>
             <a-col :span="8">
                 <a-statistic title="Reservaciones (Este Mes)" :value="12" />
@@ -42,7 +42,9 @@
 </template>
 <script setup>
 import {reactive} from 'vue'
+import {useAuthUserStore} from '@/stores/users/authUser'
 import {Responsive, Chart, Grid, Line, Tooltip} from 'vue3-charts'
+const authUserStore = useAuthUserStore()
 const dataChart = reactive([
   { name: 'Jan', pl: 1000, avg: 500, inc: 300 },
   { name: 'Feb', pl: 2000, avg: 900, inc: 400 },
