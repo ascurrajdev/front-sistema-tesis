@@ -1,5 +1,5 @@
 <script setup>
-import {reactive, watch, ref, defineEmits} from 'vue'
+import {reactive, watch, ref, defineEmits, onMounted} from 'vue'
 import {useAuthClientStore} from '@/stores/clients/authClient'
 import {useI18n} from 'vue-i18n'
 import axios from 'axios'
@@ -21,6 +21,9 @@ axios.get(`${import.meta.env.VITE_API_URL_CLIENT}/reservations/products`,{
     handleChangeProduct(data.data[0].id)
 })
 const reservationStore = useReservationStore()
+onMounted(() => {
+    reservationStore.resetFormData()
+})
 const formState = reactive({
     quantity:0,
     product_id:null

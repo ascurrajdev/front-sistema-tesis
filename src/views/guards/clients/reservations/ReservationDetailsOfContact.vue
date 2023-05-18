@@ -127,7 +127,7 @@
                 },
             }).then(({data: dataPayment}) => {
                 if(reservationStore.id == dataReservation.data.id){
-                    window.open(dataPayment.data,'_blank')
+                    window.open(dataPayment.data)
                 }
             }).finally(() => {
                 loadingGeneratePayment.value = false

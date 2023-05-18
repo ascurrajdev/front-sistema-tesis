@@ -21,6 +21,17 @@ export const useReservationStore = defineStore('reservations',{
                 ...form
             }
         },
+        resetFormData(){
+            this.id = null,
+            this.form = {
+                quantity:0,
+                product_price:0,
+                quantity_days:0,
+                config:{},
+                currency:{},
+                data:{},
+            }
+        },
         setId(id){
             this.id = id
         }
