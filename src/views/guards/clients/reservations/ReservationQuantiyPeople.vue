@@ -27,7 +27,7 @@ const formState = reactive({
 })
 const activeConfirm = ref(false)
 const getAmountWithCurrency = (product) => {
-    return product.currency.format + " " + new Intl.NumberFormat('es').format(product.amount)
+    return product.currency.currency_format + " " + new Intl.NumberFormat('es').format(product.amount)
 }
 const handleChangeProduct = (product_id) => {
     let product = productsReservation.value.find((product) => product.id == product_id)
