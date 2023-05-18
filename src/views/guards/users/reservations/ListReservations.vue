@@ -31,6 +31,10 @@ const columns = [
         dataIndex:'notes'
     },
     {
+        title:"Activo",
+        dataIndex:'active'
+    },
+    {
         title:"Creado",
         dataIndex:'created_at'
     },
